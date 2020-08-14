@@ -1,5 +1,5 @@
+from binary_search_tree import BSTNode
 import time
-from queue import Queue
 
 start_time = time.time()
 
@@ -12,7 +12,6 @@ names_2 = f.read().split("\n")  # List containing 10000 names
 f.close()
 
 duplicates = []  # Return the list of duplicates in this data structure
-dupeList = Queue()
 
 # Replace the nested for loops below with your improvements
 # for name_1 in names_1:
@@ -25,13 +24,17 @@ dupeList = Queue()
 #     if names_2 in names_1:
 #         duplicates.append(names_2)
 
-# FAST Implementation with the data structure
-for names_2 in names_2:
-    if names_2 in names_1:
-        dupeList.enqueue(names_2)
-    for i in range(len(dupeList)):
-        val = dupeList.dequeue()
-        duplicates.append(val)
+# First node
+bst = BSTNode(names_1[0])
+
+for i in range(1, len(names_1)-1):
+    current_name = names_1[i]
+    bst.insert(current_name)
+
+for i in range(0, len(names_2)-1):
+    current_name = names_2[i]
+    if bst.contains(current_name):
+        duplicates.append(current_name)
 
 end_time = time.time()
 print (f"{len(duplicates)} duplicates:\n\n{', '.join(duplicates)}\n\n")
